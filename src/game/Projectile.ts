@@ -8,7 +8,7 @@ export class Projectile extends Rectangle {
   private game: Game;
   private image: HTMLImageElement;
 
-  private constructor(game: Game, x: number, y: number) {
+  public constructor(game: Game, x: number, y: number) {
     super(x, y, 10, 3);
     this.game = game;
     this.speed = 3;
