@@ -1,9 +1,9 @@
 import { Game } from "./Game";
 
 export class InputHandler {
-  game: Game;
+  private game: Game;
 
-  constructor(game: Game) {
+  public constructor(game: Game) {
     this.game = game;
     window.addEventListener("keydown", (e) => {
       if (

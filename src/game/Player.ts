@@ -4,35 +4,27 @@ import { Rectangle } from "./enemies/Rectangle";
 import { getImagePath } from "./utils/getImagePath";
 
 export class Player extends Rectangle {
-  game: Game;
-  speedY: number;
-  frameX: number;
-  frameY: number;
-  maxFrame: number;
-  maxSpeed: number;
-  projectiles: Projectile[];
-  image: HTMLImageElement;
-  powerUp: boolean;
-  powerUpTimer: number;
-  powerUpLimit: number;
+  private game: Game;
+  private speedY: number = 0;
+  private frameX: number = 0;
+  private frameY: number = 0;
+  private maxFrame: number = 37;
+  private maxSpeed: number = 5;
+  private image: HTMLImageElement;
+  private powerUpTimer: number = 0; // текущий счетчик режима
+  private powerUpLimit: number = 10000; // длительность режима (10 сек.)
 
-  constructor(game: Game) {
+  public projectiles: Projectile[] = [];
+  public powerUp: boolean = false; // говорит о том, активирован ли режим
+
+  public constructor(game: Game) {
     super(20, 100, 120, 190);
     this.game = game;
-    this.speedY = 0;
-    this.frameX = 0;
-    this.frameY = 0;
-    this.maxFrame = 37;
-    this.maxSpeed = 5;
-    this.projectiles = [];
     this.image = new Image();
     this.image.src = getImagePath("player.png");
-    this.powerUp = false; // говорит о том, активирован ли режим
-    this.powerUpTimer = 0; // текущий счетчик режима
-    this.powerUpLimit = 10000; // длительность режима (10 сек.)
   }
 
-  update(deltaTime: number) {
+  public update(deltaTime: number) {
     this.y += this.speedY;
     if (this.frameX < this.maxFrame) this.frameX++;
     else this.frameX = 0;
@@ -63,7 +55,7 @@ export class Player extends Rectangle {
     }
   }
 
-  draw(context: CanvasRenderingContext2D) {
+  public draw(context: CanvasRenderingContext2D) {
     this.projectiles.forEach((pr) => {
       pr.draw(context);
     });
@@ -79,7 +71,7 @@ export class Player extends Rectangle {
       this.height,
     );
   }
-  shootTop() {
+  public shootTop() {
     if (this.game.ammo > 0) {
       this.projectiles.push(
         new Projectile(this.game, this.x + 80, this.y + 30),
@@ -89,7 +81,7 @@ export class Player extends Rectangle {
     // если активирован режим Power-up, то стреляем также и из хвоста
     if (this.powerUp) this.shootBottom();
   }
-  shootBottom() {
+  private shootBottom() {
     if (this.game.ammo > 0) {
       this.projectiles.push(
         new Projectile(this.game, this.x + 80, this.y + 175),
@@ -98,7 +90,7 @@ export class Player extends Rectangle {
     }
   }
 
-  enterPowerUp() {
+  public enterPowerUp() {
     this.powerUpTimer = 0;
     this.powerUp = true;
     if (this.game.ammo < this.game.maxAmmo) this.game.ammo = this.game.maxAmmo;

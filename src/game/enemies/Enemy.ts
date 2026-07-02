@@ -2,31 +2,27 @@ import { Game } from "../Game";
 import { Rectangle } from "./Rectangle";
 
 export class Enemy extends Rectangle {
-  game: Game;
-  speedX: number;
-  markedForDeletion: boolean;
-  score: number;
-  lives: number;
-  frameX: number;
-  frameY: number;
-  maxFrame: number;
-  image: HTMLImageElement;
-  type: string;
-  constructor(game: Game) {
+  protected game: Game;
+  protected speedX: number;
+  public markedForDeletion: boolean;
+  public score: number;
+  public lives: number = 0;
+  protected frameX: number = 0;
+  protected frameY: number = 0;
+  private maxFrame: number = 37;
+  protected image: HTMLImageElement;
+  public type: string = "";
+
+  public constructor(game: Game) {
     super(game.width, 0, 0, 0);
     this.game = game;
     this.speedX = Math.random() * -1.5 - 2.5;
     this.markedForDeletion = false;
-    this.lives = 0;
     this.score = this.lives;
-    this.frameX = 0;
-    this.frameY = 0;
-    this.maxFrame = 37;
     this.image = new Image();
-    this.type = "";
   }
 
-  update() {
+  public update() {
     // Обновляем x-координату врага (уменьшаем ее на величину speedX)
     this.x += this.speedX - this.game.speed;
     // Помечаем врага как удаленного, если он полностью пересечет левую границу игрового поля
@@ -36,7 +32,7 @@ export class Enemy extends Rectangle {
     else this.frameX = 0;
   }
 
-  draw(context: CanvasRenderingContext2D) {
+  public draw(context: CanvasRenderingContext2D) {
     // Устанавливаем цвет врага
     // context.fillStyle = this.color;
     // На данном этапе наш враг будет представлять из себя

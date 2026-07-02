@@ -15,54 +15,40 @@ import { Background } from "./ui/Backgrund";
 import { UI } from "./ui/UI";
 
 export class Game {
-  width: number;
-  height: number;
-  player: Player;
-  speed: number;
-  background: Background;
-  input: InputHandler;
-  keys: string[];
-  ammo: number;
-  maxAmmo: number;
-  ammoTimer: number;
-  ammoInterval: number;
-  ui: UI;
-  enemies: Enemy[];
-  enemyTimer: number;
-  enemyInterval: number;
-  gameOver: boolean;
-  score: number;
-  winningScore: number;
-  gameTime: number;
-  timeLimit: number;
-  particles: Particle[];
-  explosions: Explosion[];
-  constructor(width: number, height: number) {
+  private background: Background;
+  protected input: InputHandler;
+  private ammoTimer: number = 0;
+  private ammoInterval: number = 500;
+  private ui: UI;
+  private enemies: Enemy[] = [];
+  private enemyInterval: number = 1000;
+  private winningScore: number = 30;
+  private timeLimit: number = 20 * 1000;
+  private particles: Particle[] = [];
+  private explosions: Explosion[] = [];
+
+  public width: number;
+  public height: number;
+  public player: Player;
+  public speed: number = 1;
+  public keys: string[] = [];
+  public ammo: number = 20;
+  public maxAmmo: number = 50;
+  public enemyTimer: number = 0;
+  public gameOver: boolean = false;
+  public score: number = 0;
+  public gameTime: number = 0;
+
+  public constructor(width: number, height: number) {
     this.width = width;
     this.height = height;
     this.player = new Player(this);
-    this.speed = 1;
     this.background = new Background(this);
     this.input = new InputHandler(this);
-    this.keys = [];
-    this.ammo = 20;
-    this.maxAmmo = 50;
-    this.ammoTimer = 0;
-    this.ammoInterval = 500;
     this.ui = new UI(this);
-    this.enemies = [];
-    this.enemyTimer = 0;
-    this.enemyInterval = 1000;
-    this.gameOver = false;
-    this.score = 0;
-    this.winningScore = 30;
-    this.gameTime = 0;
-    this.timeLimit = 20 * 1000;
-    this.particles = [];
-    this.explosions = [];
   }
 
-  update(deltaTime: number) {
+  public update(deltaTime: number) {
     if (!this.gameOver) this.gameTime += deltaTime;
     if (this.gameTime > this.timeLimit) this.gameOver = true;
     this.player.update(deltaTime);
@@ -137,7 +123,7 @@ export class Game {
     }
   }
 
-  draw(context: CanvasRenderingContext2D) {
+  public draw(context: CanvasRenderingContext2D) {
     this.background.draw(context);
     this.player.draw(context);
     this.ui.draw(context);
@@ -146,14 +132,14 @@ export class Game {
     this.explosions.forEach((ex) => ex.draw(context));
     this.background.layer4.draw(context);
   }
-  addEnemy() {
+  private addEnemy() {
     const randomize = Math.random();
     if (randomize < 0.3) this.enemies.push(new Angler1(this));
     else if (randomize < 0.6) this.enemies.push(new Angler2(this));
     else if (randomize < 0.7) this.enemies.push(new HiveWhale(this));
     else this.enemies.push(new LuckyFish(this));
   }
-  checkCollision(rect1: Rectangle, rect2: Rectangle) {
+  private checkCollision(rect1: Rectangle, rect2: Rectangle) {
     return (
       rect1.x < rect2.x + rect2.width &&
       rect2.x < rect1.x + rect1.width &&
@@ -161,10 +147,10 @@ export class Game {
       rect2.y < rect1.y + rect1.height
     );
   }
-  isWin() {
+  public isWin() {
     return this.score >= this.winningScore;
   }
-  addParticles(enemy: Enemy) {
+  private addParticles(enemy: Enemy) {
     for (let i = 0; i < enemy.score; i++) {
       this.particles.push(
         new Particle(
@@ -175,7 +161,7 @@ export class Game {
       );
     }
   }
-  addExplosion(enemy: Enemy) {
+  private addExplosion(enemy: Enemy) {
     const randomize = Math.random();
     if (randomize < 0.5) {
       this.explosions.push(

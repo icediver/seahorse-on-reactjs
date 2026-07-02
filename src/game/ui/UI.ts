@@ -1,19 +1,19 @@
 import { Game } from "../Game";
 
 export class UI {
-  game: Game;
-  fontSize: number;
-  fontFamily: string;
-  color: string;
+  private game: Game;
+  private fontSize: number = 25;
+  private fontFamily: string = "Bangers";
+  private color: string = "yellow";
 
-  constructor(game: Game) {
+  public constructor(game: Game) {
     this.game = game;
     this.fontSize = 25;
     this.fontFamily = "Bangers";
     this.color = "yellow";
   }
 
-  draw(context: CanvasRenderingContext2D) {
+  public draw(context: CanvasRenderingContext2D) {
     context.save();
     context.fillStyle = this.color;
     context.shadowOffsetX = 2;

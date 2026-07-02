@@ -3,7 +3,7 @@ import { getImagePath } from "../utils/getImagePath";
 import { Enemy } from "./Enemy";
 
 export class Drone extends Enemy {
-  constructor(game: Game, x: number, y: number) {
+  public constructor(game: Game, x: number, y: number) {
     super(game);
     this.width = 115;
     this.height = 95;

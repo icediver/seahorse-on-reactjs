@@ -3,7 +3,7 @@ import { getImagePath } from "../utils/getImagePath";
 import { Enemy } from "./Enemy";
 
 export class HiveWhale extends Enemy {
-  constructor(game: Game) {
+  public constructor(game: Game) {
     super(game);
     this.width = 400;
     this.height = 227;

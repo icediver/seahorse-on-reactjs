@@ -3,7 +3,7 @@ import { getImagePath } from "../utils/getImagePath";
 import { Enemy } from "./Enemy";
 
 export class Angler2 extends Enemy {
-  constructor(game: Game) {
+  public constructor(game: Game) {
     super(game);
     this.width = 213;
     this.height = 165;

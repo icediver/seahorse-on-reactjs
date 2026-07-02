@@ -3,14 +3,15 @@ import { getImagePath } from "../utils/getImagePath";
 import { Layer } from "./Layer";
 
 export class Background {
-  game: Game;
+  private game: Game;
   // image1: HTMLImageElement;
-  layer1: Layer;
-  layer2: Layer;
-  layer3: Layer;
-  layer4: Layer;
-  layers: Layer[];
-  constructor(game: Game) {
+  private layer1: Layer;
+  private layer2: Layer;
+  private layer3: Layer;
+  public layer4: Layer;
+  private layers: Layer[];
+
+  public constructor(game: Game) {
     this.game = game;
     // this.image1 = document.getElementById("layer1");
     const image1 = new Image();
@@ -27,10 +28,10 @@ export class Background {
     this.layer4 = new Layer(this.game, image4, 1.5);
     this.layers = [this.layer1, this.layer2, this.layer3];
   }
-  update() {
+  public update() {
     this.layers.forEach((layer) => layer.update());
   }
-  draw(context: CanvasRenderingContext2D) {
+  public draw(context: CanvasRenderingContext2D) {
     this.layers.forEach((layer) => layer.draw(context));
   }
 }
